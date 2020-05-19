@@ -1,5 +1,9 @@
 /* SmtpJS.com - v3.0.0 */
-// this file will be used for sending emails
+/*
+*SMPT stands for -->Simple Mail Transfer Protocol
+                --->used for sending mails
+
+*/
 
 var Email = {
   send: function (a) {
