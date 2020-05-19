@@ -1,0 +1,17 @@
+{
+  "name": "email",
+  "displayName": "email",
+  "expo": {
+    "name": "email",
+    "slug": "email",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
