@@ -1,18 +1,18 @@
-import React from 'react';
-import {Icon} from 'react-native-elements';
-import Tts from 'react-native-tts';
-import {emailDataCleaning} from '../dataCleaning/cleaner';
+import React from "react";
+import { Icon } from "react-native-elements";
+import Tts from "react-native-tts";
+import { emailDataCleaning } from "../dataCleaning/cleaner";
 
-const Email = require('../smtp/smtp');
-const keys = require('../keys/keys');
+const Email = require("../smtp/smtp");
+const Keys = require("../keys/keys");
 export default class Mailer extends React.Component {
   sendEmail = (emailAttributes) => {
     emailAttributes = emailDataCleaning(emailAttributes);
     emailAttributes.to
       ? Email.send({
-          Host: 'smtp.gmail.com',
-          Username: keys.emailID,
-          Password: keys.password,
+          Host: "smtp.gmail.com",
+          Username: Keys.emailID,
+          Password: Keys.password,
           To: emailAttributes.to,
           From: keys.emailID,
           Subject: emailAttributes.subject,
@@ -20,14 +20,14 @@ export default class Mailer extends React.Component {
           Bcc: emailAttributes.bcc,
           Cc: emailAttributes.cc,
         }).then(() =>
-          Tts.speak('Your Mail has been successfully sent via this app'),
+          Tts.speak("Your Mail has been successfully sent via this app")
         )
       : Tts.speak(
-          'We cannot further process your Email . Maybe the email address provided is not valid',
+          "We cannot further process your Email . Maybe the email address provided is not valid"
         );
   };
   componentDidMount() {
-    Tts.speak('Click on the microphone to send e-mail');
+    Tts.speak("Click on the microphone to send e-mail");
   }
   render() {
     return (
@@ -40,7 +40,7 @@ export default class Mailer extends React.Component {
           color="#CC6699"
           onPress={() => this.sendEmail(this.props.emailDetails)}
           underlayColor="#99CCFF"
-          containerStyle={{margin: '30%', alignSelf: 'center'}}
+          containerStyle={{ margin: "30%", alignSelf: "center" }}
         />
       </>
     );
