@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import {Button} from 'react-native-elements';
-import Mailer from '../sendMail/mail';
 import VoiceComponent from './voice';
 import {checkStatus} from './util';
+import ShowDetails from './ShowDetails';
 
 export default class TakeInput extends Component {
   constructor() {
@@ -12,26 +10,27 @@ export default class TakeInput extends Component {
       sendEmail: '',
       body: '',
       subject: '',
-      to: ' ',
+      to: '',
       cc: '',
       bcc: '',
       recipient: '',
       confirm: '',
-      index: 0,
+      index: -1,
     };
+    this.emailInputControls = this.emailInputControls.bind(this);
   }
 
   // this method will be called on click of refresh button and will set the index value to 1.
   startAgain = () => {
     this.setState({
-      index: 1,
+      sendEmail: '',
       body: '',
       subject: '',
-      to: ' ',
+      to: '',
       cc: '',
       bcc: '',
-      recipient: '',
       confirm: '',
+      index: 0,
     });
   };
 
@@ -44,120 +43,65 @@ export default class TakeInput extends Component {
   };
 
   //method used to set the all the attributes of email
-  emailInputControls = (val) => {
+  emailInputControls(val) {
     const stateKeys = Object.keys(this.state);
     const recipientAdded = this.state.recipient.includes('yes');
-
-    if (this.state.index === 6) {
-      this.setState({
-        recipient: val,
-      });
-    }
-    if (this.state.index === 7 && recipientAdded) {
-      let newVal = this.state.to + ' ' + val;
-      this.setState({
-        to: newVal,
-      });
-    }
-    if (this.state.index === 7 && !recipientAdded) {
-      this.setState({
-        confirm: val,
-      });
-    }
-    if (this.state.index === 8 && recipientAdded) {
-      val = val.toLocaleLowerCase();
-      this.setState({
-        confirm: val,
+    const position = this.state.index;
+    val = val.toLocaleLowerCase();
+    console.log(val);
+    if (val.includes('email') && this.state.index < 2) {
+      return this.setState({
+        index: this.state.index + 1,
       });
     } else {
+      if (val.includes('back')) {
+        return this.goOneStepBack();
+      }
+      if (val.includes('refresh')) {
+        return this.startAgain();
+      }
+      if (this.state.index === 6) {
+        this.setState({
+          recipient: val,
+        });
+      }
+      if (this.state.index === 7 && recipientAdded) {
+        let newVal = this.state.to + ' ' + val;
+        this.setState({
+          to: newVal,
+        });
+      }
+      if (this.state.index === 7 && !recipientAdded) {
+        this.setState({
+          confirm: val,
+        });
+      }
+      if (this.state.index === 8 && recipientAdded) {
+        val = val.toLocaleLowerCase();
+        this.setState({
+          confirm: val,
+        });
+      } else {
+        this.setState({
+          [stateKeys[position]]: val,
+        });
+      }
       this.setState({
-        [stateKeys[this.state.index]]: val,
+        index: this.state.index + 1,
       });
     }
-
-    this.setState({
-      index: this.state.index + 1,
-    });
-  };
-
-  componentDidMount() {
-    checkStatus(this.state);
   }
 
-  componentWillUpdate(nextprops, nextState) {
+  UNSAFE_componentWillUpdate(nextprops, nextState) {
     if (this.state.index !== nextState.index) {
       checkStatus(nextState);
     }
   }
   render() {
-    const sendEmail = this.state.confirm.includes('yes');
     return (
       <>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontSize: 27,
-            fontWeight: 'bold',
-            marginTop: 30,
-            color: 'plum',
-          }}>
-          THIS IS AN EMAIL SENDING APP
-        </Text>
-        <Text
-          style={{
-            alignSelf: 'flex-end',
-            fontSize: 15,
-            marginTop: 15,
-            color: 'indigo',
-          }}>
-          Don't forget to press on microphone before speaking
-        </Text>
-        {sendEmail ? (
-          <Mailer emailDetails={this.state} />
-        ) : (
-          <VoiceComponent handle={this.emailInputControls} />
-        )}
-        <View style={{flexDirection: 'row'}}>
-          <Button
-            title="BACK"
-            buttonStyle={{
-              backgroundColor: 'white',
-              borderWidth: 2,
-              borderColor: 'purple',
-            }}
-            titleStyle={{
-              color: 'purple',
-              fontFamily: 'arial',
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-            containerStyle={{
-              width: '40%',
-              marginLeft: '8%',
-            }}
-            onPress={this.goOneStepBack}
-          />
-
-          <Button
-            title="REFRESH"
-            buttonStyle={{
-              backgroundColor: 'white',
-              borderWidth: 2,
-              borderColor: 'purple',
-            }}
-            titleStyle={{
-              color: 'purple',
-              fontFamily: 'arial',
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-            containerStyle={{
-              width: '40%',
-              marginLeft: '5%',
-            }}
-            onPress={this.startAgain}
-          />
-        </View>
+        <ShowDetails input={this.state} />
+        <VoiceComponent handle={this.emailInputControls} />
       </>
     );
   }

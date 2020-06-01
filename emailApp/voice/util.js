@@ -1,27 +1,48 @@
-import Tts from "react-native-tts";
+import Tts from 'react-native-tts';
 
-export function checkStatus(state) {
-  const boolSend = state.sendEmail.includes("yes");
-  const addMore = state.recipient.includes("yes");
-  const values = [
-    "Welcome to this email sending app , I can help you in sending emails .  Do you want to send emails ?",
-    " Tell me the content you want to send ",
-    "Now you can add subject for your mail",
-    "Subject and Body are successfully added now you can tell to whom you want to send this mail",
-    "You can add cc , if you want to",
-    "you can add bcc here ",
-    "Do you want to add more recipient",
-    " you  can  add more  recipients here ",
-    " Are you sure you want to send this e-mail. ? ",
-    "I am glad that you visited here . Wish I could help you  somehow . Dont forget to come here when you need to send emails",
-    " Are you sure you want to send this e-mail. ",
-  ];
+export async function checkStatus(state) {
+  // console.log('entering function', state.index);
+  const boolSend = true;
+  const addMore = state.recipient.includes('yes');
+  if (state.index === 0) {
+    await Tts.speak(
+      'Welcome to this email sending app , I can help you in sending emails .  Do you want to send emails ?',
+    );
+  }
 
-  if (!boolSend && state.index === 1) {
-    state.index = 9;
+  if (state.index === 1 && boolSend) {
+    await Tts.speak(' Tell me the content you want to send ');
   }
-  if (!addMore && state.index == 7) {
-    state.index = 10;
+  if (state.index === 2 && boolSend) {
+    await Tts.speak('Now you can add subject for your mail');
   }
-  Tts.speak(values[state.index]);
+  if (state.index === 3 && boolSend) {
+    await Tts.speak(
+      'Subject and Body are successfully added now you can tell to whom you want to send this mail',
+    );
+  }
+  if (state.index === 4 && boolSend) {
+    await Tts.speak('You can add cc , if you want to');
+  }
+  if (state.index === 5 && boolSend) {
+    await Tts.speak('you can add bcc here ');
+  }
+  if (state.index === 6 && boolSend) {
+    await Tts.speak('Do you want to add more recipient');
+  }
+  if (state.index === 7 && addMore) {
+    await Tts.speak(' you  can  add more  recipients here ');
+  }
+  if (state.index === 7 && !addMore) {
+    await Tts.speak(' Are you sure you want to send this e-mail. ');
+  }
+  if (state.index === 8 && addMore) {
+    await Tts.speak(' Are you sure you want to send this e-mail. ? ');
+  }
+
+  if (state.index === 1 && !boolSend) {
+    await Tts.speak(
+      'I am glad that you visited here . Wish I could help you  somehow . Do not forget to come here when you need to send emails',
+    );
+  }
 }

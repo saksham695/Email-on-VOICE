@@ -7,17 +7,17 @@
  */
 
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Icon} from 'react-native-elements';
+
 import Voice from '@react-native-community/voice';
 
-export default class VoiceComponent extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recognized: '',
       started: '',
       results: [],
+      textResponse: '',
     };
 
     Voice.onSpeechStart = this.onSpeechStartHandler.bind(this);
@@ -25,6 +25,14 @@ export default class VoiceComponent extends React.Component {
     Voice.onSpeechResults = this.onSpeechResultsHandler.bind(this);
   }
 
+  async componentDidMount() {
+    this._startRecognition();
+    setInterval(() => {
+      setTimeout(() => {
+        this._startRecognition();
+      }, 100);
+    }, 10000);
+  }
   onSpeechStartHandler(e) {
     this.setState({
       started: '√',
@@ -37,7 +45,6 @@ export default class VoiceComponent extends React.Component {
     });
   }
 
-  // will record your voice and send covert it into text and  send it to the function which set attributes of email.
   onSpeechResultsHandler = async (e) => {
     await this.setState({
       results: e.value,
@@ -60,30 +67,6 @@ export default class VoiceComponent extends React.Component {
   }
 
   render() {
-    return (
-      <View>
-        <Icon
-          raised
-          name="microphone"
-          type="font-awesome"
-          size={50}
-          color="#CC6699"
-          onPress={(e) => this._startRecognition(e)}
-          underlayColor="thistle"
-          containerStyle={{margin: '30%', alignSelf: 'center'}}
-        />
-
-        <Text
-          style={{
-            marginBottom: 15,
-            textAlign: 'center',
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}>
-          {' '}
-          {this.state.results[0]}{' '}
-        </Text>
-      </View>
-    );
+    return <></>;
   }
 }
