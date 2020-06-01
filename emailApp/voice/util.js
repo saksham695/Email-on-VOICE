@@ -1,20 +1,20 @@
-import Tts from 'react-native-tts';
+import Tts from "react-native-tts";
 
 export function checkStatus(state) {
-  const boolSend = state.sendEmail.includes('yes');
+  const boolSend = state.sendEmail.includes("yes");
   const indexMappings = [
-    'Welcome to this email sending app , I can help you in sending emails .  Do you want to send emails ?',
-    'Tell me the content you want to send ',
-    'Now you can add subject for your mail',
-    'Subject and Body are successfully added now you can tell to whom you want to send this mail',
-    'You can add cc , if you want to',
-    'you can add bcc here ',
-    'Are you sure you want to send this e-mail. ? ',
+    "Welcome to this email sending app , I can help you in sending emails .  Do you want to send emails ?",
+    "Tell me the content you want to send ",
+    "Now you can add subject for your mail",
+    "Subject and Body are successfully added now you can tell to whom you want to send this mail",
+    "You can add cc , if you want to",
+    "you can add bcc here ",
+    "Are you sure you want to send this e-mail. ? ",
   ];
 
   if (!boolSend) {
     return Tts.speak(
-      'I am glad that you visited here . Wish I could help you  somehow . Come here when you need to send emails',
+      "I am glad that you visited here . Wish I could help you  somehow . Come here when you need to send emails"
     );
   } else {
     Tts.speak(indexMappings[state.index]);

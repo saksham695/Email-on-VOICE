@@ -1,19 +1,19 @@
-import React, {Component} from 'react';
-import VoiceComponent from './voice';
-import {checkStatus} from './util';
-import ShowDetails from './ShowDetails';
+import React, { Component } from "react";
+import VoiceComponent from "./voice";
+import { checkStatus } from "./util";
+import ShowDetails from "./ShowDetails";
 
 export default class TakeInput extends Component {
   constructor() {
     super();
     this.state = {
-      sendEmail: '',
-      body: '',
-      subject: '',
-      to: '',
-      cc: '',
-      bcc: '',
-      confirm: '',
+      sendEmail: "",
+      body: "",
+      subject: "",
+      to: "",
+      cc: "",
+      bcc: "",
+      confirm: "",
       index: -1,
     };
     this.emailInputControls = this.emailInputControls.bind(this);
@@ -22,13 +22,13 @@ export default class TakeInput extends Component {
   // this method will be called on click of refresh button and will set the index value to 1.
   startAgain = () => {
     this.setState({
-      sendEmail: '',
-      body: '',
-      subject: '',
-      to: '',
-      cc: '',
-      bcc: '',
-      confirm: '',
+      sendEmail: "",
+      body: "",
+      subject: "",
+      to: "",
+      cc: "",
+      bcc: "",
+      confirm: "",
       index: 0,
     });
   };
@@ -37,7 +37,7 @@ export default class TakeInput extends Component {
   goOneStepBack = () => {
     this.setState({
       index: this.state.index - 1,
-      confirm: 'no',
+      confirm: "no",
     });
   };
 
@@ -47,15 +47,15 @@ export default class TakeInput extends Component {
 
     emailInputs = emailInputs.toLocaleLowerCase();
 
-    if (emailInputs.includes('email') && this.state.index < 1) {
+    if (emailInputs.includes("email") && this.state.index < 1) {
       return this.setState({
         index: this.state.index + 1,
       });
     } else {
-      if (emailInputs.includes('back')) {
+      if (emailInputs.includes("back")) {
         return this.goOneStepBack();
       }
-      if (emailInputs.includes('refresh')) {
+      if (emailInputs.includes("refresh")) {
         return this.startAgain();
       }
       this.setState({
