@@ -13,7 +13,6 @@ export default class TakeInput extends Component {
       to: '',
       cc: '',
       bcc: '',
-      recipient: '',
       confirm: '',
       index: -1,
     };
@@ -43,50 +42,24 @@ export default class TakeInput extends Component {
   };
 
   //method used to set the all the attributes of email
-  emailInputControls(val) {
+  emailInputControls(emailInputs) {
     const stateKeys = Object.keys(this.state);
-    const recipientAdded = this.state.recipient.includes('yes');
-    const position = this.state.index;
-    val = val.toLocaleLowerCase();
-    console.log(val);
-    if (val.includes('email') && this.state.index < 2) {
+
+    emailInputs = emailInputs.toLocaleLowerCase();
+
+    if (emailInputs.includes('email') && this.state.index < 1) {
       return this.setState({
         index: this.state.index + 1,
       });
     } else {
-      if (val.includes('back')) {
+      if (emailInputs.includes('back')) {
         return this.goOneStepBack();
       }
-      if (val.includes('refresh')) {
+      if (emailInputs.includes('refresh')) {
         return this.startAgain();
       }
-      if (this.state.index === 6) {
-        this.setState({
-          recipient: val,
-        });
-      }
-      if (this.state.index === 7 && recipientAdded) {
-        let newVal = this.state.to + ' ' + val;
-        this.setState({
-          to: newVal,
-        });
-      }
-      if (this.state.index === 7 && !recipientAdded) {
-        this.setState({
-          confirm: val,
-        });
-      }
-      if (this.state.index === 8 && recipientAdded) {
-        val = val.toLocaleLowerCase();
-        this.setState({
-          confirm: val,
-        });
-      } else {
-        this.setState({
-          [stateKeys[position]]: val,
-        });
-      }
       this.setState({
+        [stateKeys[this.state.index]]: emailInputs,
         index: this.state.index + 1,
       });
     }

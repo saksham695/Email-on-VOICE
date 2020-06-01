@@ -28,9 +28,7 @@ export default class App extends React.Component {
   async componentDidMount() {
     this._startRecognition();
     setInterval(() => {
-      setTimeout(() => {
-        this._startRecognition();
-      }, 100);
+      this._startRecognition();
     }, 10000);
   }
   onSpeechStartHandler(e) {

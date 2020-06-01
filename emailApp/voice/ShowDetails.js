@@ -4,11 +4,12 @@ import {Text, StyleSheet, View} from 'react-native';
 import MailInput from '../mailAPI/MailInput';
 
 import {emailDataCleaning} from '../dataCleaning/cleaner';
+import {CONSTANTS} from '../constants/constants';
 
 export default function ShowDetails({input}) {
   const emailAttributes = emailDataCleaning(input);
-  const sendEmail = emailAttributes.confirm.includes('yes');
-  console.log(emailAttributes.body);
+  const sendEmail = emailAttributes.confirm.includes(CONSTANTS.YES);
+
   return (
     <>
       <View style={styles.container}>
