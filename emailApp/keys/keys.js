@@ -1,5 +1,5 @@
 export const KEYS = {
   access_TOKEN:
-    "ya29.a0AfH6SMAokE-_W8b7gneuV04iR24hdz-hm4QJedGiev47V8E2ruOJvmD0UBAxUjxH_FbQqUJnXqNKT05sj21duD0dAKddRBUdwg7vH0uX7HNrUmVjUZqyajNCSqo1PcI1efPV4ik7aah3KGXyVww-SpcjAs1xhRYZICU",
-  EMAIL: "saksham.kumar@vectoscalar.com",
+    'ya29.a0AfH6SMCwDbNv9Y3hmS4jUkTbxFcAtmplbuSAh5iye4t-bi3BfV6rXiKVbFq1jScWWIxMyPS46jlU_YUf2Ik_u-iqEbN6yVT_dNuEp4hfx77z48-nWaPzwf_eToYT5rZguLxbfVJwx6ORrrWVWSDLIuHHh6geAN0JN5Q',
+  EMAIL: 'saksham.kumar@vectoscalar.com',
 };

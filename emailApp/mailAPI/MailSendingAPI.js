@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import Tts from "react-native-tts";
+import React, {Component} from 'react';
+import Tts from 'react-native-tts';
 
-import { KEYS } from "../keys/keys";
+import {KEYS} from '../keys/keys';
 import {
   METHOD_NAMES,
   GMAIL_URL,
   DRAFT_PATH,
   SEND_PATH,
-} from "../constants/constants";
-const fetch = require("node-fetch");
+} from '../constants/constants';
+const fetch = require('node-fetch');
 
 export default class MailSendingAPI extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
+      id: '',
     };
   }
   async emailControls(url, headers, body) {
@@ -35,14 +35,13 @@ export default class MailSendingAPI extends Component {
       .then((res) => {
         return res.json();
       })
-      .then((result) => this.setState({ id: result.drafts[0].id }));
+      .then((result) => this.setState({id: result.drafts[0].id}));
   }
 
   async componentDidMount() {
-    {
-      Tts.speak(" We have started sending your email");
-    }
-    const { base64Message } = this.props;
+    Tts.speak(' We have started sending your email');
+
+    const {base64Message} = this.props;
 
     // Authentication Header
     const token = `Bearer ${KEYS.access_TOKEN}`;
@@ -50,7 +49,7 @@ export default class MailSendingAPI extends Component {
     const url = GMAIL_URL + KEYS.EMAIL + DRAFT_PATH;
     const headers = {
       Authorization: token,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const draftBody = {
       message: {
@@ -62,12 +61,12 @@ export default class MailSendingAPI extends Component {
     await this.emailControls(url, headers, draftBody);
     await this.getDraftID(url, headers);
     const mailSendURL = url + SEND_PATH;
-    const sendBODY = {
+    const sendBody = {
       id: this.state.id,
     };
 
     //for sending draft message
-    await this.emailControls(mailSendURL, headers, sendBODY);
+    await this.emailControls(mailSendURL, headers, sendBody);
   }
 
   render() {

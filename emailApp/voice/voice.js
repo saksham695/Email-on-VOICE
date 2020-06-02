@@ -6,18 +6,19 @@
  * @flow strict-local
  */
 
-import React from "react";
+import React from 'react';
 
-import Voice from "@react-native-community/voice";
+import Voice from '@react-native-community/voice';
+import {debounce} from 'lodash';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recognized: "",
-      started: "",
+      recognized: '',
+      started: '',
       results: [],
-      textResponse: "",
+      textResponse: '',
     };
 
     Voice.onSpeechStart = this.onSpeechStartHandler.bind(this);
@@ -26,39 +27,44 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    this._startRecognition();
+    // this._startRecognition();
     setInterval(() => {
       this._startRecognition();
     }, 10000);
   }
+
   onSpeechStartHandler(e) {
     this.setState({
-      started: "√",
+      started: '√',
     });
   }
+
+  // Voice.onSpeechResults = debounce(({ value }): void => {
+  //   doMaThing();
+  // }, 50);
 
   onSpeechEndHandler(e) {
     this.setState({
-      recognized: "√",
+      recognized: '√',
     });
   }
 
-  onSpeechResultsHandler = async (e) => {
-    await this.setState({
+  onSpeechResultsHandler = debounce((e) => {
+    this.setState({
       results: e.value,
     });
-    await this.props.handle(e.value[0]);
-  };
+    this.props.handle(e.value[0]);
+  }, 10000);
 
   async _startRecognition(e) {
     this.setState({
-      recognized: "",
-      started: "",
+      recognized: '',
+      started: '',
       results: [],
-      textResponse: "",
+      textResponse: '',
     });
     try {
-      await Voice.start("en-US");
+      await Voice.start('en-US');
     } catch (e) {
       console.error(e);
     }

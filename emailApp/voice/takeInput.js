@@ -1,19 +1,20 @@
-import React, { Component } from "react";
-import VoiceComponent from "./voice";
-import { checkStatus } from "./util";
-import ShowDetails from "./ShowDetails";
+import React, {Component} from 'react';
+import VoiceComponent from './voice';
+import {checkStatus} from './util';
+import ShowDetails from './ShowDetails';
+import {CONSTANTS} from '../constants/constants';
 
 export default class TakeInput extends Component {
   constructor() {
     super();
     this.state = {
-      sendEmail: "",
-      body: "",
-      subject: "",
-      to: "",
-      cc: "",
-      bcc: "",
-      confirm: "",
+      sendEmail: '',
+      body: '',
+      subject: '',
+      to: '',
+      cc: '',
+      bcc: '',
+      confirm: '',
       index: -1,
     };
     this.emailInputControls = this.emailInputControls.bind(this);
@@ -22,13 +23,13 @@ export default class TakeInput extends Component {
   // this method will be called on click of refresh button and will set the index value to 1.
   startAgain = () => {
     this.setState({
-      sendEmail: "",
-      body: "",
-      subject: "",
-      to: "",
-      cc: "",
-      bcc: "",
-      confirm: "",
+      sendEmail: '',
+      body: '',
+      subject: '',
+      to: '',
+      cc: '',
+      bcc: '',
+      confirm: '',
       index: 0,
     });
   };
@@ -37,31 +38,37 @@ export default class TakeInput extends Component {
   goOneStepBack = () => {
     this.setState({
       index: this.state.index - 1,
-      confirm: "no",
+      confirm: CONSTANTS.NO,
     });
   };
 
   //method used to set the all the attributes of email
-  emailInputControls(emailInputs) {
+  async emailInputControls(emailInputs) {
     const stateKeys = Object.keys(this.state);
 
     emailInputs = emailInputs.toLocaleLowerCase();
 
-    if (emailInputs.includes("email") && this.state.index < 1) {
+    if (emailInputs.includes('alexa') && this.state.index < 2) {
       return this.setState({
         index: this.state.index + 1,
       });
     } else {
-      if (emailInputs.includes("back")) {
+      if (emailInputs.includes(CONSTANTS.BACK)) {
         return this.goOneStepBack();
-      }
-      if (emailInputs.includes("refresh")) {
+      } else if (emailInputs.includes(CONSTANTS.REFRESH)) {
         return this.startAgain();
+      } else {
+        console.log('stateKeys', stateKeys);
+        this.setState({
+          [stateKeys[this.state.index]]: emailInputs,
+        });
+        this.setState(
+          {
+            index: this.state.index + 1,
+          },
+          () => console.log(this.state),
+        );
       }
-      this.setState({
-        [stateKeys[this.state.index]]: emailInputs,
-        index: this.state.index + 1,
-      });
     }
   }
 
